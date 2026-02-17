@@ -1,9 +1,15 @@
 const NodeHelper = require("node_helper");
-const { chromium } = require("playwright");
+
+// Note: Playwright can be heavy and may not be installed in development environments.
+// We lazy-require it inside the fetch function so the helper can load even if
+// the dependency isn't yet installed. If Playwright is missing, the fetch will
+// log a clear error and the module will return empty data instead of crashing.
 
 module.exports = NodeHelper.create({
     socketNotificationReceived: function (notification, payload) {
+        console.log('MMM-NetflixTop10 node_helper: received socket', notification, payload);
         if (notification === "FETCH_NETFLIX") {
+            console.log('MMM-NetflixTop10 node_helper: starting fetchNetflixTop10 for region', payload && payload.region);
             this.fetchNetflixTop10(payload.region);
         }
     },
@@ -12,6 +18,17 @@ module.exports = NodeHelper.create({
         let browser;
         try {
             console.log("Launching browser for Netflix Top 10...");
+
+            let playwright;
+            try {
+                playwright = require("playwright");
+            } catch (err) {
+                console.error("Playwright is not installed for MMM-NetflixTop10.\nRun: cd modules/MMM-NetflixTop10 && npm install\nThen restart MagicMirror.");
+                this.sendSocketNotification("NETFLIX_DATA", []);
+                return;
+            }
+
+            const { chromium } = playwright;
             browser = await chromium.launch({ headless: true });
             const context = await browser.newContext({
                 userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",

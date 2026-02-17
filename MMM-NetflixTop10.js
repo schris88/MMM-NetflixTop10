@@ -9,13 +9,16 @@ Module.register("MMM-NetflixTop10", {
     defaults: {
         updateInterval: 24 * 60 * 60 * 1000, // Update every 24 hours
         region: "germany",
-        maxItems: 10
+        maxItems: 10,
+        itemHeight: 120 // px - approximate height per item when displayed vertically
     },
 
     start: function () {
         Log.info("Starting module: " + this.name);
         this.loaded = false;
         this.netflix = null;
+        this.displayedCount = this.config.maxItems;
+        this._lastMeasuredHeight = 0;
 
         // Schedule the first update
         this.scheduleUpdate();
@@ -38,17 +41,15 @@ Module.register("MMM-NetflixTop10", {
         var table = document.createElement("div");
         table.className = "netflix-table";
 
-        // Add header
-        var header = document.createElement("div");
-        header.className = "netflix-header";
-        header.innerHTML = "<h2>Netflix Top 10</h2>";
-        table.appendChild(header);
-
         // Add items
         var itemsContainer = document.createElement("div");
         itemsContainer.className = "netflix-items";
 
-        this.netflix.forEach(function (item) {
+        var items = (this.netflix || []).slice(0, this.displayedCount || this.config.maxItems);
+
+        var self = this;
+
+        items.forEach(function (item) {
             var itemDiv = document.createElement("div");
             itemDiv.className = "netflix-item";
 
@@ -57,24 +58,21 @@ Module.register("MMM-NetflixTop10", {
             var img = document.createElement("img");
             img.src = item.image;
             img.alt = item.title;
+            // enforce height to keep layout predictable
+            var itemHeight = (self.config && self.config.itemHeight) ? self.config.itemHeight : 120;
+            imgDiv.style.height = itemHeight + "px";
+            img.style.height = "100%";
+            img.style.width = "100%";
+            img.style.objectFit = "cover";
             imgDiv.appendChild(img);
 
             var rankDiv = document.createElement("div");
             rankDiv.className = "netflix-item-rank";
             rankDiv.innerHTML = item.rank;
 
-            var titleDiv = document.createElement("div");
-            titleDiv.className = "netflix-item-title";
-            titleDiv.innerHTML = item.title;
-
-            var weeksDiv = document.createElement("div");
-            weeksDiv.className = "netflix-item-weeks";
-            weeksDiv.innerHTML = item.weeks + " week" + (item.weeks !== 1 ? "s" : "");
-
+            // Only show the image and rank overlay to save space.
             itemDiv.appendChild(imgDiv);
             itemDiv.appendChild(rankDiv);
-            itemDiv.appendChild(titleDiv);
-            itemDiv.appendChild(weeksDiv);
 
             itemsContainer.appendChild(itemDiv);
         });

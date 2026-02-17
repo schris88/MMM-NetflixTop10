@@ -30,7 +30,8 @@ Add this to your MagicMirror `config/config.js`:
     config: {
         updateInterval: 24 * 60 * 60 * 1000,  // Update every 24 hours
         region: "germany",                     // Change to your region (us, uk, etc.)
-        maxItems: 10
+        maxItems: 10,
+        itemHeight: 120 // height in pixels for each list item (optional)
     }
 }
 ```
@@ -42,6 +43,7 @@ Add this to your MagicMirror `config/config.js`:
 | `updateInterval` | Number | 24h | How often to fetch new data (in milliseconds) |
 | `region` | String | "germany" | Netflix region code (germany, us, uk, etc.) |
 | `maxItems` | Number | 10 | Maximum number of items to display |
+| `itemHeight` | Number | 120 | Approximate height in pixels for each item when displayed vertically |
 
 ## How it Works
 
