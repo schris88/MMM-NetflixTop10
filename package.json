@@ -1,0 +1,11 @@
+{
+    "name": "MMM-NetflixTop10",
+    "version": "1.0.0",
+    "description": "MagicMirror module that displays Netflix Top 10 shows/movies",
+    "main": "MMM-NetflixTop10.js",
+    "author": "Christian Stengel",
+    "license": "MIT",
+    "dependencies": {
+        "playwright": "^1.58.2"
+    }
+}
