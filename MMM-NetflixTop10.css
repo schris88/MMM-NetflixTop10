@@ -8,24 +8,25 @@
 
 .netflix-items {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    flex-wrap: wrap; /* Allows items to move to the next row */
+    gap: 10px;      /* Space between items */
     width: 100%;
-    height: 100%;
-    overflow: auto;
+    justify-content: space-between;
 }
 
 .netflix-item {
     position: relative;
-    width: 100%;
+    /* Calculate width for 2 columns (50%) minus half the gap */
+    width: calc(50% - 5px); 
     overflow: hidden;
     background: #111;
     border-radius: 6px;
+    margin-bottom: 5px;
 }
 
+/* Ensure images fill the new square/rectangular grid slots */
 .netflix-item-image {
     width: 100%;
-    height: auto;
     display: block;
 }
 
