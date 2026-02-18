@@ -1,68 +1,92 @@
 # MMM-NetflixTop10
 
-A MagicMirror module that displays Netflix Top 10 shows and movies for a specific region.
+A premium, responsive MagicMirror² module that brings the official **Netflix Top 10** rankings directly to your mirror. Stay updated with the most popular TV shows and movies in your region with a sleek, Netflix-inspired design.
 
-## Features
+![Netflix Top 10](https://img.shields.io/badge/MagicMirror-Module-E50914?style=for-the-badge&logo=netflix)
 
-- Displays Netflix Top 10 TV shows in a grid layout
-- Shows ranking, poster image, title, and weeks in top 10
-- Supports multiple regions (germany, us, etc.)
-- Auto-refresh capability with configurable interval
-- Responsive design that adapts to different screen sizes
+## ✨ Features
 
-## Installation
+- 🌍 **Multi-Region Support**: Track rankings for Germany, US, UK, and many others.
+- 📱 **Fully Responsive**: Adapts perfectly to vertical (portrait) or horizontal (landscape) mirror orientations.
+- 🎨 **Netflix Aesthetics**: Clean grid layout with poster art, rankings, and red accents.
+- ⚙️ **Highly Customizable**: Control item height, module width, column count, and update frequency.
+- 🔄 **Automated Sync**: Uses Playwright to fetch live data from Netflix's official Tudum rankings.
 
-1. Clone or download this module into your `MagicMirror/modules` folder
-2. Install dependencies:
+## 🚀 Installation
+
+1. Navigate to your MagicMirror `modules` directory:
    ```bash
-   cd MagicMirror/modules/MMM-NetflixTop10
+   cd ~/MagicMirror/modules
+   ```
+2. Clone this repository:
+   ```bash
+   git clone https://github.com/schris88/MMM-NetflixTop10.git
+   ```
+3. Install the required dependencies:
+   ```bash
+   cd MMM-NetflixTop10
    npm install
+   npx playwright install --with-deps chromium
    ```
 
-## Configuration
+## 🛠 Configuration
 
-Add this to your MagicMirror `config/config.js`:
+Add the module to your `config/config.js` file.
 
+### Minimal Configuration
+```javascript
+{
+    module: "MMM-NetflixTop10",
+    position: "top_right",
+    config: {
+        region: "germany"
+    }
+}
+```
+
+### Advanced Configuration (Horizontal Layout Example)
 ```javascript
 {
     module: "MMM-NetflixTop10",
     position: "bottom_bar",
     config: {
-        updateInterval: 24 * 60 * 60 * 1000,  // Update every 24 hours
-        region: "germany",                     // Change to your region (us, uk, etc.)
-        maxItems: 10,
-        itemHeight: 120 // height in pixels for each list item (optional)
+        updateInterval: 12 * 60 * 60 * 1000, // 12 hours
+        region: "us",
+        maxItems: 5,
+        columns: 5,         // Show 5 items in a single row
+        itemHeight: "280px", // Fixed height for posters
+        maxWidth: "100%"     // Use full width of the position
     }
 }
 ```
 
-## Config Options
+## ⚙️ Options
 
 | Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `updateInterval` | Number | 24h | How often to fetch new data (in milliseconds) |
-| `region` | String | "germany" | Netflix region code (germany, us, uk, etc.) |
-| `maxItems` | Number | 10 | Maximum number of items to display |
-| `itemHeight` | Number | 120 | Approximate height in pixels for each item when displayed vertically |
+| :--- | :--- | :--- | :--- |
+| `updateInterval` | `Number` | `86400000` | Sync frequency in milliseconds (Default: 24h). |
+| `region` | `String` | `"germany"` | Netflix region code (e.g., `germany`, `us`, `united-kingdom`). |
+| `maxItems` | `Number` | `10` | Number of items to fetch and display. |
+| `itemHeight` | `String\|Number` | `"250px"` | Height for each item. Supports numbers (px) or strings (e.g., `"200px"`, `"30vh"`, `"150"`). |
+| `maxWidth` | `String\|Number` | `"450px"` | Maximum width of the module container. Supports numbers (px) or strings. |
+| `columns` | `Number` | `2` | Number of columns in the grid layout. |
 
-## How it Works
+## 🧬 How it Works
 
-1. Uses Playwright to browse Netflix's Tudum top 10 page for your region
-2. Extracts ranking, image, title, and weeks in top 10 from the table
-3. Displays the data in a responsive grid with Netflix-style styling
-4. Auto-updates based on your configured interval
+This module utilizes **Playwright** to headlessly navigate to the official [Netflix Top 10 page](https://www.netflix.com/tudum/top10/). It extracts the latest ranking data, including:
+- Current Rank
+- Title
+- Poster Image URL
+- Weeks in Top 10
 
-## Requirements
+The data is then cached and displayed in a responsive grid.
 
-- Node.js with npm
-- Playwright browser dependencies
+## ⚠️ Notes
 
-## Notes
+- **Initial Load**: The first fetch might take a few seconds as the headless browser initializes.
+- **Dependencies**: Ensure your system has the necessary libraries for Playwright/Chromium to run.
+- **Data Source**: This module relies on the structure of the Netflix Tudum website. Significant changes to their site may require module updates.
 
-- Netflix may change their page structure, which could break the scraper
-- The module respects Netflix's terms of service by only displaying publicly available data
-- Images are loaded directly from Netflix's CDN
+## 📄 License
 
-## License
-
-MIT
+MIT © [Christian Stengel](https://github.com/schris88)

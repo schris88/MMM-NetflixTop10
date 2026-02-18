@@ -9,7 +9,10 @@ Module.register("MMM-NetflixTop10", {
     defaults: {
         updateInterval: 24 * 60 * 60 * 1000, // Update every 24 hours
         region: "germany",
-        maxItems: 10
+        maxItems: 10,
+        itemHeight: "250px",
+        maxWidth: "450px",
+        columns: 2
     },
 
     start: function () {
@@ -25,6 +28,15 @@ Module.register("MMM-NetflixTop10", {
     getDom: function () {
         var wrapper = document.createElement("div");
         wrapper.className = "netflix-wrapper";
+        var maxWidth = this.config.maxWidth;
+        if (typeof maxWidth === "number") maxWidth += "px";
+        wrapper.style.maxWidth = maxWidth;
+
+        var itemHeight = this.config.itemHeight;
+        if (typeof itemHeight === "number") itemHeight += "px";
+        wrapper.style.setProperty("--item-height", itemHeight);
+
+        wrapper.style.setProperty("--columns", this.config.columns);
 
         if (!this.loaded) {
             wrapper.innerHTML = this.translate("LOADING");
@@ -43,6 +55,7 @@ Module.register("MMM-NetflixTop10", {
         itemsContainer.className = "netflix-items";
 
         var items = (this.netflix || []).slice(0, this.displayedCount || this.config.maxItems);
+        var self = this;
 
         items.forEach(function (item) {
             // FIX: You must create the item container div!
@@ -51,14 +64,17 @@ Module.register("MMM-NetflixTop10", {
 
             var imgDiv = document.createElement("div");
             imgDiv.className = "netflix-item-image";
-            
+            imgDiv.style.height = "100%";
+
             var img = document.createElement("img");
             img.src = item.image;
             img.alt = item.title;
-            
+
             // Clean styling for grid layout
             img.style.width = "100%";
-            img.style.display = "block"; 
+            img.style.height = "100%";
+            img.style.objectFit = "cover";
+            img.style.display = "block";
             imgDiv.appendChild(img);
 
             var rankDiv = document.createElement("div");
