@@ -9,12 +9,11 @@ module.exports = NodeHelper.create({
     socketNotificationReceived: function (notification, payload) {
         console.log('MMM-NetflixTop10 node_helper: received socket', notification, payload);
         if (notification === "FETCH_NETFLIX") {
-            console.log('MMM-NetflixTop10 node_helper: starting fetchNetflixTop10 for region', payload && payload.region);
-            this.fetchNetflixTop10(payload.region);
+            console.log('MMM-NetflixTop10 node_helper: starting fetchNetflixTop10 for region', payload);
         }
     },
 
-    fetchNetflixTop10: async function (region) {
+    fetchNetflixTop10: async function () {
         let browser;
         try {
             console.log("Launching browser for Netflix Top 10...");
@@ -37,13 +36,13 @@ module.exports = NodeHelper.create({
             });
             const page = await context.newPage();
 
-            const url = `https://www.netflix.com/tudum/top10/${region}/tv`;
+            const url = `https://www.netflix.com/tudum/top10/germany`;
             console.log(`Navigating to ${url}...`);
             await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
 
             // Handle cookie/consent popups
             try {
-                await page.click("button[data-uia='accept-all']", { timeout: 5000 }).catch(() => {});
+                await page.click("button[data-uia='accept-all']", { timeout: 5000 }).catch(() => { });
             } catch (e) {
                 console.log("No consent popup found");
             }
