@@ -1,14 +1,13 @@
 # MMM-NetflixTop10
 
-A premium, responsive MagicMirror² module that brings the official **Netflix Top 10** rankings directly to your mirror. Stay updated with the most popular TV shows and movies in your region with a sleek, Netflix-inspired design.
+A premium, responsive MagicMirror² module that brings the official **Netflix Top 10** rankings directly to your mirror. Stay updated with the most popular TV shows and movies in Germany with a sleek, Netflix-inspired design.
 
 ![Netflix Top 10](https://img.shields.io/badge/MagicMirror-Module-E50914?style=for-the-badge&logo=netflix)
 
 ## ✨ Features
 
-- 🌍 **Multi-Region Support**: Track rankings for Germany, US, UK, and many others.
-- 📱 **Fully Responsive**: Adapts perfectly to vertical (portrait) or horizontal (landscape) mirror orientations.
 - 🎨 **Netflix Aesthetics**: Clean grid layout with poster art, rankings, and red accents.
+- 📱 **Fully Responsive**: Adapts perfectly to vertical (portrait) or horizontal (landscape) mirror orientations.
 - ⚙️ **Highly Customizable**: Control item height, module width, column count, and update frequency.
 - 🔄 **Automated Sync**: Uses Playwright to fetch live data from Netflix's official Tudum rankings.
 

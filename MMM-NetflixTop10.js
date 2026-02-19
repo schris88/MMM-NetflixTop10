@@ -8,7 +8,6 @@
 Module.register("MMM-NetflixTop10", {
     defaults: {
         updateInterval: 24 * 60 * 60 * 1000, // Update every 24 hours
-        region: "germany",
         maxItems: 10,
         itemHeight: "250px",
         maxWidth: "450px",
@@ -107,12 +106,12 @@ Module.register("MMM-NetflixTop10", {
 
         // Initial data request
         if (delay === undefined) {
-            this.sendSocketNotification("FETCH_NETFLIX", { region: this.config.region });
+            this.sendSocketNotification("FETCH_NETFLIX");
         }
 
         // Using setInterval as per your original logic, but setTimeout is often safer
         setInterval(function () {
-            self.sendSocketNotification("FETCH_NETFLIX", { region: self.config.region });
+            self.sendSocketNotification("FETCH_NETFLIX");
         }, nextLoad);
     },
 

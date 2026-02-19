@@ -7,9 +7,9 @@ const NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({
     socketNotificationReceived: function (notification, payload) {
-        console.log('MMM-NetflixTop10 node_helper: received socket', notification, payload);
+        console.log('MMM-NetflixTop10 node_helper: received socket', notification);
         if (notification === "FETCH_NETFLIX") {
-            console.log('MMM-NetflixTop10 node_helper: starting fetchNetflixTop10 for region', payload);
+            this.fetchNetflixTop10();
         }
     },
 
