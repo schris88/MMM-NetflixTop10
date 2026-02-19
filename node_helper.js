@@ -52,7 +52,9 @@ module.exports = NodeHelper.create({
             console.log("Extracting Netflix Top 10 data...");
             const data = await page.evaluate(() => {
                 const items = [];
-                const rows = document.querySelectorAll('[data-uia="top10-table-row-title"]');
+                // Use the specific root node as requested by the user to avoid duplicates
+                const table = document.querySelector('div[lang="en"][data-uia="top10-table"][data-length="10"]');
+                const rows = table ? table.querySelectorAll('[data-uia="top10-table-row-title"]') : [];
 
                 rows.forEach((row) => {
                     const rank = row.querySelector(".rank")?.textContent.trim() || "";
