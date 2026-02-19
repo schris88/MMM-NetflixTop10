@@ -29,7 +29,7 @@ Module.register("MMM-NetflixTop10", {
         wrapper.className = "netflix-wrapper";
         var maxWidth = this.config.maxWidth;
         if (typeof maxWidth === "number") maxWidth += "px";
-        wrapper.style.maxWidth = maxWidth;
+        wrapper.style.width = maxWidth;
 
         var itemHeight = this.config.itemHeight;
         if (typeof itemHeight === "number") itemHeight += "px";
