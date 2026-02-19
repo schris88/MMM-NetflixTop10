@@ -38,9 +38,6 @@ Add the module to your `config/config.js` file.
 {
     module: "MMM-NetflixTop10",
     position: "top_right",
-    config: {
-        region: "germany"
-    }
 }
 ```
 
@@ -51,7 +48,6 @@ Add the module to your `config/config.js` file.
     position: "bottom_bar",
     config: {
         updateInterval: 12 * 60 * 60 * 1000, // 12 hours
-        region: "us",
         maxItems: 5,
         columns: 5,         // Show 5 items in a single row
         itemHeight: "280px", // Fixed height for posters
@@ -65,7 +61,6 @@ Add the module to your `config/config.js` file.
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `updateInterval` | `Number` | `86400000` | Sync frequency in milliseconds (Default: 24h). |
-| `region` | `String` | `"germany"` | Netflix region code (e.g., `germany`, `us`, `united-kingdom`). |
 | `maxItems` | `Number` | `10` | Number of items to fetch and display. |
 | `itemHeight` | `String\|Number` | `"250px"` | Height for each item. Supports numbers (px) or strings (e.g., `"200px"`, `"30vh"`, `"150"`). |
 | `maxWidth` | `String\|Number` | `"450px"` | Maximum width of the module container. Supports numbers (px) or strings. |
