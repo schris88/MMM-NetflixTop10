@@ -50,7 +50,7 @@ Add the module to your `config/config.js` file.
         maxItems: 5,
         columns: 5,         // Show 5 items in a single row
         itemHeight: "280px", // Fixed height for posters
-        maxWidth: "100%"     // Use full width of the position
+        maxWidth: 320     // Use full width of the position
     }
 }
 ```
