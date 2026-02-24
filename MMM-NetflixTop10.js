@@ -10,7 +10,7 @@ Module.register("MMM-NetflixTop10", {
         updateInterval: 24 * 60 * 60 * 1000, // Update every 24 hours
         maxItems: 10,
         itemHeight: "250px",
-        maxWidth: "450px",
+        maxWidth: "360px",
         columns: 2
     },
 
@@ -18,15 +18,31 @@ Module.register("MMM-NetflixTop10", {
         Log.info("Starting module: " + this.name);
         this.loaded = false;
         this.netflix = null;
-        this.displayedCount = this.config.maxItems;
+        this.isFlipped = false;
 
         // Schedule the first update
         this.scheduleUpdate();
+
+        // Staggered flip timer: toggle flip every 60 seconds
+        var self = this;
+        setInterval(function () {
+            if (self.loaded && self.netflix && self.netflix.length > 5) {
+                self.isFlipped = !self.isFlipped;
+                var wrapper = document.querySelector(".MMM-NetflixTop10 .netflix-wrapper");
+                if (wrapper) {
+                    if (self.isFlipped) {
+                        wrapper.classList.add("is-flipped");
+                    } else {
+                        wrapper.classList.remove("is-flipped");
+                    }
+                }
+            }
+        }, 60000);
     },
 
     getDom: function () {
         var wrapper = document.createElement("div");
-        wrapper.className = "netflix-wrapper";
+        wrapper.className = "netflix-wrapper" + (this.isFlipped ? " is-flipped" : "");
         var maxWidth = this.config.maxWidth;
         if (typeof maxWidth === "number") maxWidth += "px";
         wrapper.style.width = maxWidth;
@@ -53,44 +69,56 @@ Module.register("MMM-NetflixTop10", {
         var itemsContainer = document.createElement("div");
         itemsContainer.className = "netflix-items";
 
-        var items = (this.netflix || []).slice(0, this.displayedCount || this.config.maxItems);
-        var self = this;
+        // We only show 5 cards (which reveal 10 items)
+        var cardCount = Math.min(5, this.netflix.length);
 
-        items.forEach(function (item) {
-            // FIX: You must create the item container div!
+        for (var i = 0; i < cardCount; i++) {
             var itemDiv = document.createElement("div");
-            itemDiv.className = "netflix-item";
+            itemDiv.className = "netflix-item-container";
 
-            var imgDiv = document.createElement("div");
-            imgDiv.className = "netflix-item-image";
-            imgDiv.style.height = "100%";
+            var cardInner = document.createElement("div");
+            cardInner.className = "netflix-card-inner";
 
-            var img = document.createElement("img");
-            img.src = item.image;
-            img.alt = item.title;
+            // Front side (Items 1-5)
+            var frontFace = this.createFace(this.netflix[i], "front");
+            cardInner.appendChild(frontFace);
 
-            // Clean styling for grid layout
-            img.style.width = "100%";
-            img.style.height = "100%";
-            img.style.objectFit = "cover";
-            img.style.display = "block";
-            imgDiv.appendChild(img);
+            // Back side (Items 6-10)
+            if (this.netflix.length > i + 5) {
+                var backFace = this.createFace(this.netflix[i + 5], "back");
+                cardInner.appendChild(backFace);
+            }
 
-            var rankDiv = document.createElement("div");
-            rankDiv.className = "netflix-item-rank";
-            rankDiv.innerHTML = item.rank;
-
-            // Append children to the newly created itemDiv
-            itemDiv.appendChild(imgDiv);
-            itemDiv.appendChild(rankDiv);
-
+            itemDiv.appendChild(cardInner);
             itemsContainer.appendChild(itemDiv);
-        });
+        }
 
         table.appendChild(itemsContainer);
         wrapper.appendChild(table);
 
         return wrapper;
+    },
+
+    createFace: function (item, type) {
+        var face = document.createElement("div");
+        face.className = "netflix-card-face netflix-card-" + type;
+
+        var imgDiv = document.createElement("div");
+        imgDiv.className = "netflix-item-image";
+
+        var img = document.createElement("img");
+        img.src = item.image;
+        img.alt = item.title;
+        imgDiv.appendChild(img);
+
+        var rankDiv = document.createElement("div");
+        rankDiv.className = "netflix-item-rank";
+        rankDiv.innerHTML = item.rank;
+
+        face.appendChild(imgDiv);
+        face.appendChild(rankDiv);
+
+        return face;
     },
 
     getStyles: function () {

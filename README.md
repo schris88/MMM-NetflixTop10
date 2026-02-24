@@ -62,7 +62,7 @@ Add the module to your `config/config.js` file.
 | `updateInterval` | `Number` | `86400000` | Sync frequency in milliseconds (Default: 24h). |
 | `maxItems` | `Number` | `10` | Number of items to fetch and display. |
 | `itemHeight` | `String\|Number` | `"250px"` | Height for each item. Supports numbers (px) or strings (e.g., `"200px"`, `"30vh"`, `"150"`). |
-| `maxWidth` | `String\|Number` | `"450px"` | Maximum width of the module container. Supports numbers (px) or strings. |
+| `maxWidth` | `String\|Number` | `"360px"` | Maximum width of the module container. Supports numbers (px) or strings. |
 | `columns` | `Number` | `2` | Number of columns in the grid layout. |
 
 ## 🧬 How it Works
