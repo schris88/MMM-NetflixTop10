@@ -47,8 +47,8 @@ Add the module to your `config/config.js` file.
     position: "bottom_bar",
     config: {
         updateInterval: 12 * 60 * 60 * 1000, // 12 hours
-        maxItems: 5,
-        columns: 5,         // Show 5 items in a single row
+        maxItems: 10,
+        columns: 1,         // Show 5 items in a single row
         itemHeight: "280px", // Fixed height for posters
         maxWidth: 320     // Use full width of the position
     }
